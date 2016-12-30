@@ -15,6 +15,22 @@ class GroupsController < ApplicationController
   def edit
   end
 
+  def new
+    @group = Group.new
+  end
+
+  def create
+    @group = Group.new(group_params)
+    @group.user = current_user
+
+    if @group.save
+      current_user.join!(@group)
+      redirect_to grpups_path
+    else
+      reder :new
+    end
+  end
+
   def update
 
     if @group.update(group_params)
